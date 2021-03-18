@@ -6,7 +6,7 @@ class QuotesSpider(scrapy.Spider):
 
     def start_requests(self):
         urls = ['https://www.usatoday.com/story/news/politics/2021/03/06/covid-stimulus-bill-what-changed-between-senate-and-house-versions/4610104001',
-        ]
+                ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
@@ -16,7 +16,7 @@ class QuotesSpider(scrapy.Spider):
         filename = 'result.html'
         print('type: ', type(main_text))
         outfile = open("result.txt", "w")
-        
+
         #result2 = read_result.writelines("result2.txt", "w")
 
         for main_texts in main_text:
@@ -26,7 +26,7 @@ class QuotesSpider(scrapy.Spider):
 
         print('\n''\n''\n''\n')
         read_result = open("result.txt", "r")
-        #print(read_result.readlines())
+        # print(read_result.readlines())
         words = []
         for line in read_result.readlines():
             #print(line, '\n')
@@ -35,8 +35,11 @@ class QuotesSpider(scrapy.Spider):
             for i in range(len(splitted_line)):
                 words.append(splitted_line[i])
         print(words)
+        outfile2 = open("result2.txt", "w")
+        for word in words:
+            outfile2.write(word + "\n")
         read_result.close()
-        #yield main_text
+        # yield main_text
 
 # import scrapy
 
