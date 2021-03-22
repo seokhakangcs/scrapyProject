@@ -12,11 +12,11 @@ class QuotesSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        # def getAllClassText(classTag):
-        #     words = changeTextToList(main_text)
-        #     classTags = classTag + "::text"
-        #     main_text = response.css(classTags).getall()
-        #     return main_text
+        def getAllClassText(classTag):
+            classTags = classTag + "::text"
+            main_text = response.css(classTags).getall()
+            # print(main_text)
+            return main_text
 
         def changeTextToList(main_text):
             sentence = []
@@ -24,13 +24,17 @@ class QuotesSpider(scrapy.Spider):
             for i in range(len(main_text)):
                 sentence = main_text[i].split()
                 for j in range(len(sentence)):
-                    words.append(sentence[j])
-            for index in range(len(words)):
-                words[index] = words[index].strip(" .\'\"")
+                    sentence[j] = sentence[j].strip(" ,.\'\"")
+                    if(sentence[j].isalpha()):
+                        words.append(sentence[j])
+            # for index in range(len(words)):
+            #     words[index] = words[index].strip(" ,.\'\"")
             return words
 
         words = []
-        main_text = response.css('p.gnt_ar_b_p::text').getall()
+        # main_text = getAllClassText('p.gnt_ar_b_p')
+        # main_text = response.css('p.gnt_ar_b_p::text').getall()
+        main_text = getAllClassText('p.gnt_ar_b_p')
         words = changeTextToList(main_text)
 
         print("\n\n\n")
