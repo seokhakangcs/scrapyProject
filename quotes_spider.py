@@ -31,12 +31,24 @@ class QuotesSpider(scrapy.Spider):
             #     words[index] = words[index].strip(" ,.\'\"")
             return words
 
+        def calculateRepetition(words):
+            repetition = dict()
+            for word in words:
+                if(word not in repetition):
+                    repetition[word] = 1
+                else:
+                    repetition[word] += 1
+            return repetition
+
         words = []
+        dictionary = dict()
         # main_text = getAllClassText('p.gnt_ar_b_p')
         # main_text = response.css('p.gnt_ar_b_p::text').getall()
         main_text = getAllClassText('p.gnt_ar_b_p')
         words = changeTextToList(main_text)
-
+        dictionary = calculateRepetition(words)
+        dictionary_list = list(dictionary.items())
+        dictionary_list.sort()
         print("\n\n\n")
-        print(words)
+        print(dictionary_list)
         print("\n\n\n")
