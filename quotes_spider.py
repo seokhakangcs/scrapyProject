@@ -12,7 +12,7 @@ class QuotesSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        def getAllClassText(classTag):
+        def getCSSText(classTag):
             classTags = classTag + "::text"
             main_text = response.css(classTags).getall()
             # print(main_text)
@@ -44,11 +44,12 @@ class QuotesSpider(scrapy.Spider):
         dictionary = dict()
         # main_text = getAllClassText('p.gnt_ar_b_p')
         # main_text = response.css('p.gnt_ar_b_p::text').getall()
-        main_text = getAllClassText('p.gnt_ar_b_p')
+        main_text = getCSSText('p.gnt_ar_b_p')
         words = changeTextToList(main_text)
         dictionary = calculateRepetition(words)
         dictionary_list = list(dictionary.items())
-        dictionary_list.sort()
+        dictionary_list.sort(key=lambda x: x[1], reverse=True)
+
         print("\n\n\n")
         print(dictionary_list)
         print("\n\n\n")
