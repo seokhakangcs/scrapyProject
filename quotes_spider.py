@@ -11,45 +11,27 @@ class QuotesSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
-        main_text = response.css('p.gnt_ar_b_p::text').getall()
-        print('main text: ', main_text)
-        filename = 'result.html'
-        print('type: ', type(main_text))
-        outfile = open("result.txt", "w")
 
-        #result2 = read_result.writelines("result2.txt", "w")
+        # def getAllClassText(classTag):
 
-        for main_texts in main_text:
-            outfile.write(main_texts + "\n")
+        #     words = changeTextToList(main_text)
+        #     classTags = classTag + "::text"
+        #     main_text = response.css(classTags).getall()
+        #     return main_text
 
-        outfile.close()
-
-        print('\n''\n''\n''\n')
-        read_result = open("result.txt", "r")
-        # print(read_result.readlines())
         words = []
-        for line in read_result.readlines():
-            #print(line, '\n')
-            splitted_line = line.split()
-            print('splitted line: ', splitted_line, '\n')
-            for i in range(len(splitted_line)):
-                words.append(splitted_line[i])
+        main_text = response.css('p.gnt_ar_b_p::text').getall()
+        words = changeTextToList(main_text)
+
+        print("\n\n\n")
         print(words)
-        outfile2 = open("result2.txt", "w")
-        for word in words:
-            outfile2.write(word + "\n")
-        read_result.close()
-        # yield main_text
+        print("\n\n\n")
 
-# import scrapy
-
-# class BlogSpider(scrapy.Spider):
-#     name = 'blogspider'
-
-#     def start_request(self):
-#         start_urls = ['https://www.usatoday.com/story/news/politics/2021/03/06/covid-stimulus-bill-what-changed-between-senate-and-house-versions/4610104001/']
-#         yield scrapy.Request(url=url, callback=self.parse)
-
-#     def parse(self, response):
-#         main_text = response.css('p.gnt_ar_b_p')
-#         print('main text', main)
+        def changeTextToList(self, main_text):
+            sentence = []
+            words = []
+            for i in range(len(main_text)):
+                sentence = main_text[i].split()
+                for j in range(len(sentence)):
+                    words.append(sentence[j])
+            return words
