@@ -15,7 +15,6 @@ class QuotesSpider(scrapy.Spider):
         def getCSSText(classTag):
             classTags = classTag + "::text"
             main_text = response.css(classTags).getall()
-            # print(main_text)
             return main_text
 
         def changeTextToList(main_text):
@@ -27,8 +26,6 @@ class QuotesSpider(scrapy.Spider):
                     sentence[j] = sentence[j].strip(" ,.\'\"")
                     if(sentence[j].isalpha()):
                         words.append(sentence[j])
-            # for index in range(len(words)):
-            #     words[index] = words[index].strip(" ,.\'\"")
             return words
 
         def calculateRepetition(words):
@@ -42,8 +39,6 @@ class QuotesSpider(scrapy.Spider):
 
         words = []
         dictionary = dict()
-        # main_text = getAllClassText('p.gnt_ar_b_p')
-        # main_text = response.css('p.gnt_ar_b_p::text').getall()
         main_text = getCSSText('p.gnt_ar_b_p')
         words = changeTextToList(main_text)
         dictionary = calculateRepetition(words)
