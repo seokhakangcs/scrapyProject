@@ -1,10 +1,13 @@
 import scrapy
 
 
-class QuotesSpider(scrapy.Spider):
-    name = "NewsSpider"
+class NewsCrawler(scrapy.Spider):
+    name = "news"
 
     def start_requests(self):
+
+        # urls = response.css("div.recipe-description a::attr(href)").getall()
+
         urls = ['https://www.usatoday.com/story/news/politics/2021/03/06/covid-stimulus-bill-what-changed-between-senate-and-house-versions/4610104001',
                 ]
         for url in urls:
@@ -12,20 +15,21 @@ class QuotesSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        def getCSSText(classTag):
+        def getText(classTag):
             classTags = classTag + "::text"
-            main_text = response.css(classTags).getall()
-            return main_text
+            text = response.css(classTags).getall()
+            return text
 
-        def changeTextToList(main_text):
-            sentence = []
+        def getWords(text):
+            splitted_sentence = []
             words = []
-            for i in range(len(main_text)):
-                sentence = main_text[i].split()
-                for j in range(len(sentence)):
-                    sentence[j] = sentence[j].strip(" ,.\'\"")
-                    if(sentence[j].isalpha()):
-                        words.append(sentence[j])
+
+            for sentence in text:
+                splitted_sentence = sentence.split()
+                for word in splitted_sentence:
+                    word = word.strip(" ,.\'\"")
+                    if(word.isalpha()):
+                        words.append(word)
             return words
 
         def calculateRepetition(words):
@@ -37,10 +41,12 @@ class QuotesSpider(scrapy.Spider):
                     repetition[word] += 1
             return repetition
 
+        urls = response.css("div.gnt_m gnt_m_flm a::attr(href)").getall()
+        print(urls)
         words = []
         dictionary = dict()
-        main_text = getCSSText('p.gnt_ar_b_p')
-        words = changeTextToList(main_text)
+        text = getText('p.gnt_ar_b_p')
+        words = getWords(text)
         dictionary = calculateRepetition(words)
         dictionary_list = list(dictionary.items())
         dictionary_list.sort(key=lambda x: x[1], reverse=True)
@@ -48,3 +54,13 @@ class QuotesSpider(scrapy.Spider):
         print("\n\n\n")
         print(dictionary_list)
         print("\n\n\n")
+
+
+class UrlFetcher():
+    def fetch_sub_urls(self, USA_TODAY):
+        print()
+
+
+class WordCounter():
+    def count(self, texts):
+        print()
