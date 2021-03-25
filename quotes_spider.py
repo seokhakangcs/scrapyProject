@@ -9,6 +9,7 @@ class NewsCrawler(scrapy.Spider):
         # urls = response.css("div.recipe-description a::attr(href)").getall()
 
         urls = ['https://www.usatoday.com/story/news/politics/2021/03/06/covid-stimulus-bill-what-changed-between-senate-and-house-versions/4610104001',
+                'https://www.usatoday.com/news/',
                 ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
@@ -41,8 +42,11 @@ class NewsCrawler(scrapy.Spider):
                     repetition[word] += 1
             return repetition
 
-        urls = response.css("div.gnt_m gnt_m_flm a::attr(href)").getall()
-        print(urls)
+        urls = response.css(".gnt_m_flm_a ::attr(href)").extract()
+        print("///////////////////////")
+        print(urls, end='\n')
+        print("///////////////////////")
+
         words = []
         dictionary = dict()
         text = getText('p.gnt_ar_b_p')
@@ -54,6 +58,7 @@ class NewsCrawler(scrapy.Spider):
         print("\n\n\n")
         print(dictionary_list)
         print("\n\n\n")
+        # wordCounter = WordCounter()
 
 
 class UrlFetcher():
@@ -61,6 +66,11 @@ class UrlFetcher():
         print()
 
 
-class WordCounter():
-    def count(self, texts):
-        print()
+# class WordCounter(scrapy.Spider):
+#     def __init(self, classTag):
+#         self.classTag = classTag
+
+#     def getText(self, classTag):
+#         classTags = classTag + "::text"
+#         text = response.css(classTags).getall()
+#         return text
