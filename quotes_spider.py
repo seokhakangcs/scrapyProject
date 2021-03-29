@@ -8,7 +8,7 @@ class NewsCrawler(scrapy.Spider):
     def start_requests(self):
 
         # urls = response.css("div.recipe-description a::attr(href)").getall()
-        print(stopwords.words('english'))
+        # print(stopwords.words('english'))
         urls = ['https://www.usatoday.com/news/',]
         # 'https://www.usatoday.com/story/news/politics/2021/03/06/covid-stimulus-bill-what-changed-between-senate-and-house-versions/4610104001',
         for url in urls:
@@ -54,17 +54,21 @@ class NewsCrawler(scrapy.Spider):
         dictionary_list.sort(key=lambda x: x[1], reverse=True)
 
         # print("\n\n\n")
-        print(dictionary_list)
+        # print(dictionary_list)
         # print("\n\n\n")
         # wordCounter = WordCounter()
         next_page_urls = response.css(".gnt_m_flm_a ::attr(href)").extract()
+        # print("\n\n\nabcd\n\n\n")
         
-        # print("///////////////////////")
-        # print(next_page_urls)
-        # print("///////////////////////")
+        print("///////////////////////")
+        print(next_page_urls)
+        print("///////////////////////")
 
         for next_page_url in next_page_urls:
             yield scrapy.Request(response.urljoin(next_page_url))
+        print("\n\n\n")
+        print(len(next_page_urls))
+        print("\n\n\n")
 
 
 class UrlFetcher():
